@@ -14,14 +14,14 @@ CXXFLAGS += -I$(SRCDIR)/include -MMD -MP -MF $(DEPDIR)/$*.d
 
 all: $(BUILDDIR_LOCAL) $(DEPDIR) $(OBJECTS)
 
-OBJDIRS := $(patsubst src/%,$(BUILDDIR_LOCAL)/%,$(dir $(SOURCES)))
+OBJDIRS := $(sort $(patsubst src/%,$(BUILDDIR_LOCAL)/%,$(dir $(SOURCES))))
 $(BUILDDIR_LOCAL): $(OBJDIRS)
 
 $(OBJDIRS):
 	mkdir -p $@
 
 
-DEPDIRS := $(patsubst src/%,$(DEPDIR)/%,$(dir $(SOURCES)))
+DEPDIRS := $(sort $(patsubst src/%,$(DEPDIR)/%,$(dir $(SOURCES))))
 $(DEPDIR): $(DEPDIRS)
 
 $(DEPDIRS):

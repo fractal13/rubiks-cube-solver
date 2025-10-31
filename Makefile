@@ -24,5 +24,5 @@ $(TARGET): $(ALL_OBJECTS)
 
 clean:
 	rm -f $(TARGET)
-	$(foreach dir,$(SUBDIRS),$(MAKE) -C $(dir) clean)
+	for dir in $(SUBDIRS); do $(MAKE) -C $$dir clean; done
 	rm -rf $(BUILDDIR)
