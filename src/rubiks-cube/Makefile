@@ -2,7 +2,7 @@ SRCDIR := .
 BUILDDIR_ROOT := ../../build
 BUILDDIR_LOCAL := $(BUILDDIR_ROOT)/rubiks-cube
 
-CXXFLAGS += -I$(SRCDIR) -MMD -MP -MF $(DEPDIR)/$*.d
+CXXFLAGS += -I$(SRCDIR) -I../ai-lib/include -MMD -MP -MF $(shell pwd)/$(DEPDIR)/$*.d
 
 SOURCES := $(wildcard $(SRCDIR)/*.cpp)
 OBJECTS := $(patsubst $(SRCDIR)/%.cpp,$(BUILDDIR_LOCAL)/%.o,$(SOURCES))

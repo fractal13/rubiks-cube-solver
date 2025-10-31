@@ -1,0 +1,40 @@
+// *
+// * <Sentence> -> <Sentence0>
+// *
+// * <Sentence0> -> <Sentence0> TOKEN_IFF <Sentence1>
+// * <Sentence0> -> <Sentence1>
+// *
+// * <Sentence1> -> <Sentence1> TOKEN_IMPLIES <Sentence2>
+// * <Sentence1> -> <Sentence2>
+// *
+// * <Sentence2> -> <Sentence2> TOKEN_OR <Sentence3>
+// * <Sentence2> -> <Sentence3>
+// *           
+// * <Sentence3> -> <Sentence3> TOKEN_AND <Sentence4>
+// * <Sentence3> -> <Sentence4>
+// *           
+// * <Sentence4> -> TOKEN_NOT <Sentence4>
+// * <Sentence4> -> <Sentence5>
+// *           
+// * <Sentence5> -> <AtomicSentence>
+// * <Sentence5> -> TOKEN_LEFT_PAREN <Sentence0> TOKEN_RIGHT_PAREN
+// * <Sentence5> -> TOKEN_FORALL <VariableList> <Sentence0>
+// * <Sentence5> -> TOKEN_EXISTS <VariableList> <Sentence0>
+// *
+// * <AtomicSentence> -> <Predicate> TOKEN_LEFT_PAREN <TermList> TOKEN_RIGHT_PAREN
+// * <AtomicSentence> -> <Term> TOKEN_EQUAL <Term>
+// *
+// * <VariableList> -> <VariableList> TOKEN_COMMA <Variable>
+// * <VariableList> -> <Variable>
+// *
+// * <TermList> -> <TermList> TOKEN_COMMA <Term>
+// * <TermList> -> <Term>
+// *
+// * <Term> -> <Function> TOKEN_LEFT_PAREN <TermList> TOKEN_RIGHT_PAREN
+// * <Term> -> <Constant>
+// * <Term> -> <Variable>
+// *
+// * <Constant> -> TOKEN_SYMBOL          // ([A-Za-z][A-Za-z0-9_]*)
+// * <Variable> -> TOKEN_SYMBOL          // ([A-Za-z][A-Za-z0-9_]*)
+// * <Predicate> -> TOKEN_SYMBOL         // ([A-Za-z][A-Za-z0-9_]*)
+// * <Function> -> TOKEN_SYMBOL          // ([A-Za-z][A-Za-z0-9_]*)

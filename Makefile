@@ -1,11 +1,13 @@
 CXX := g++
-CXXFLAGS := -Wall -Wextra -Wpedantic -Werror -std=c++20
+CXXFLAGS := -Wall -Wextra -Wpedantic -Werror -std=c++20 -Isrc/ai-lib/include
 LDFLAGS :=
 
 BUILDDIR := build
 TARGET := rubiks-cube-solver
 
-SUBDIRS := src/rubiks-cube
+SUBDIRS := src/rubiks-cube src/ai-lib
+
+ALL_OBJECTS := $(foreach dir,$(SUBDIRS),$(wildcard $(BUILDDIR)/$(notdir $(dir))/*.o))
 
 .PHONY: all $(SUBDIRS) clean
 
@@ -17,8 +19,8 @@ $(BUILDDIR):
 $(SUBDIRS):
 	$(MAKE) -C $@ all
 
-$(TARGET): $(patsubst %/%.o,%,$(foreach dir,$(SUBDIRS),$(wildcard $(BUILDDIR)/$(notdir $(dir))/*.o)))
-	$(CXX) $(foreach dir,$(SUBDIRS),$(wildcard $(BUILDDIR)/$(notdir $(dir))/*.o)) -o $(TARGET) $(LDFLAGS)
+$(TARGET): $(ALL_OBJECTS)
+	$(CXX) $(ALL_OBJECTS) -o $(TARGET) $(LDFLAGS)
 
 clean:
 	rm -f $(TARGET)
