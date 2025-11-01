@@ -1,13 +1,11 @@
-CXX := g++
-CXXFLAGS := -Wall -Wextra -Wpedantic -Werror -std=c++20 -Isrc/ai-lib/include
-LDFLAGS :=
+include vars.mk
 
 BUILDDIR := build
 TARGET := rubiks-cube-solver
 
-SUBDIRS := src/rubiks-cube src/ai-lib
+SUBDIRS := src/ai-lib src/rubiks-cube
 
-ALL_OBJECTS := $(foreach dir,$(SUBDIRS),$(wildcard $(BUILDDIR)/$(notdir $(dir))/*.o))
+ALL_OBJECTS := $(shell find $(BUILDDIR) -name "*.o" -type f)
 
 .PHONY: all $(SUBDIRS) clean
 

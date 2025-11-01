@@ -2,6 +2,8 @@
 #include <cmath>
 #include <cstdlib>
 #include <algorithm>
+#include <random>
+#include <chrono>
 
 namespace cgl {
   namespace cube {
@@ -13,8 +15,6 @@ namespace cgl {
     HLAProblem::~HLAProblem( ) {
     }
     
-    static int myrandom ( int i ) { return std::rand() % i; }
-
     static bool find_path( const RubiksCube& initial_cube, const RubiksCube& goal_cube, std::vector< std::pair< Color, Direction > >& rotations ) {
       rotations.clear( );
       rotations.resize( 0 );
@@ -105,7 +105,7 @@ namespace cgl {
       }
       
       // shuffle the actions to not prefer particular cubies
-      std::random_shuffle( actions.begin( ), actions.end( ), myrandom );
+      std::shuffle( actions.begin( ), actions.end( ), std::default_random_engine(std::chrono::steady_clock::now().time_since_epoch().count()) );
       //std::cout << "HLAProblem::Actions() finished." << std::endl;
       return actions;
     }
@@ -128,9 +128,9 @@ namespace cgl {
       return new HLAState( cube, action->getCurrentGoal( ) );
     }
 
-    double HLAProblem::StepCost( const ai::Search::State  * const state1_in,
+    double HLAProblem::StepCost( const ai::Search::State  * const /*state1_in*/,
                                  const ai::Search::Action * const action_in,
-                                 const ai::Search::State  * const state2_in ) const {
+                                 const ai::Search::State  * const /*state2_in*/ ) const {
       //std::cout << "HLAProblem::StepCost() started." << std::endl;
       const HLAAction * const action = dynamic_cast< const HLAAction * const >( action_in );
       //std::cout << "HLAProblem::StepCost() finished." << std::endl;

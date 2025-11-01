@@ -151,10 +151,10 @@ namespace ai
           return false;
         }
       DBGP_SOCKET(LOG_STREAM(std::cerr) << "Post header recv" << std::endl);
-      int length;
+      unsigned int length;
       sscanf(header, HDR_FORMAT, &length);
       char * buffer = new char[length];
-      int total = 0;
+      unsigned int total = 0;
       while(total < length)
         {
           DBGP_SOCKET(LOG_STREAM(std::cerr) << "Pre recv " << total << " " << length << std::endl);

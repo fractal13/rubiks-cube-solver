@@ -2,6 +2,8 @@
 #include <cmath>
 #include <cstdlib>
 #include <algorithm>
+#include <random>
+#include <chrono>
 
 namespace cgl {
   namespace cube {
@@ -24,9 +26,7 @@ namespace cgl {
       return mGoalState.IsEqual( state_in );
     }
 
-    static int myrandom ( int i ) { return std::rand() % i; }
-
-    std::vector<ai::Search::Action *> Problem::Actions( const ai::Search::State * const state_in ) {
+    std::vector<ai::Search::Action *> Problem::Actions( const ai::Search::State * const /* state_in */ ) {
       std::vector<ai::Search::Action *> actions;
       actions.push_back( new Action( Action::FACE_WHITE, Action::ROTATE_CW ) );
       actions.push_back( new Action( Action::FACE_WHITE, Action::ROTATE_CCW ) );
@@ -62,7 +62,7 @@ namespace cgl {
       }
 #endif
       
-      std::random_shuffle( actions.begin( ), actions.end( ), myrandom );
+      std::shuffle( actions.begin( ), actions.end( ), std::default_random_engine(std::chrono::steady_clock::now().time_since_epoch().count()) );
       return actions;
     }
     
@@ -104,9 +104,9 @@ namespace cgl {
       return new State( cube );
     }
 
-    double Problem::StepCost( const ai::Search::State  * const state1_in,
-                              const ai::Search::Action * const action_in,
-                              const ai::Search::State  * const state2_in ) const {
+    double Problem::StepCost( const ai::Search::State  * const /*state1_in*/,
+                              const ai::Search::Action * const /*action_in*/,
+                              const ai::Search::State  * const /*state2_in*/ ) const {
       return 1.0;
     }
 

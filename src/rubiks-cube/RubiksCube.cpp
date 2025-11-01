@@ -1712,6 +1712,15 @@ namespace cgl {
       return false;
     }
 
+    RubiksCube::RubiksCube( const RubiksCube& src ) {
+      int i, j;
+      for( i = 0; i < NUM_COLOR; i++ ) {
+        for( j = 0; j < NUM_POSITION; j++ ) {
+          mCube[i][j] = src.mCube[i][j];
+        }
+      }
+    }
+
     RubiksCube& RubiksCube::operator=( const RubiksCube& rhs ) {
       int i, j;
       for( i = 0; i < NUM_COLOR; i++ ) {

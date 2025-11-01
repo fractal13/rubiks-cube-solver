@@ -1,3 +1,5 @@
+include ../../vars.mk
+
 SRCDIR := .
 BUILDDIR_ROOT := ../../build
 BUILDDIR_LOCAL := $(BUILDDIR_ROOT)/ai-lib
@@ -5,7 +7,8 @@ DEPDIR := $(BUILDDIR_LOCAL)/.deps
 
 VPATH := src/Agent src/CSP src/FOL src/FOL/more_parsing src/LocalSearch src/PL src/PL/cc src/Search src/Support
 
-SOURCES := $(foreach dir,$(VPATH),$(wildcard $(dir)/*.cpp))
+# Explicitly specify which source files to compile, excluding the conflicting implementation
+SOURCES := $(filter-out src/PL/KnowledgeBase.cpp,$(foreach dir,$(VPATH),$(wildcard $(dir)/*.cpp)))
 OBJECTS := $(patsubst src/%.cpp,$(BUILDDIR_LOCAL)/%.o,$(SOURCES))
 
 CXXFLAGS += -I$(SRCDIR)/include -MMD -MP -MF $(DEPDIR)/$*.d
@@ -20,13 +23,11 @@ $(BUILDDIR_LOCAL): $(OBJDIRS)
 $(OBJDIRS):
 	mkdir -p $@
 
-
 DEPDIRS := $(sort $(patsubst src/%,$(DEPDIR)/%,$(dir $(SOURCES))))
 $(DEPDIR): $(DEPDIRS)
 
 $(DEPDIRS):
 	mkdir -p $@
-
 
 $(BUILDDIR_LOCAL)/%.o: src/%.cpp
 	$(CXX) $(CXXFLAGS) -c $< -o $@

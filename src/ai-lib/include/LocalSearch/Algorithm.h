@@ -22,7 +22,7 @@ namespace ai
       virtual bool Search() = 0;
       virtual bool RandomRestartSearch(int max_restarts);
       /* Do not delete this pointer */
-      const State * const GetSolution() const;
+      const State * GetSolution() const;
       int GetRestartCount() const;
       int GetStatesGenerated() const;
 

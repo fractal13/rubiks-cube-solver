@@ -31,7 +31,7 @@ namespace ai
       std::cout << "Problem Display.  Override me to get better information." << std::endl;
     }
 
-    double Problem::Heuristic(const State  * const state_in) const
+    double Problem::Heuristic(const State  * const /*state_in*/) const
     {
       return 0.0;
     }

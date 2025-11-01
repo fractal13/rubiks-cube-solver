@@ -92,7 +92,7 @@ namespace ai
       return 0;
     }
 
-    void ClosedList::SetStyle(const Node * const node_in)
+    void ClosedList::SetStyle(const Node * const /* node_in */)
     {
       if(use_set == US_UNKNOWN)
         {

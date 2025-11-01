@@ -286,48 +286,48 @@ namespace ai
   namespace Agent
   {
 
-    EnvironmentDisplay::EnvironmentDisplay(Environment *env, int width, int height)
+    EnvironmentDisplay::EnvironmentDisplay(Environment *, int , int )
     {
     }
-    EnvironmentDisplay::EnvironmentDisplay(Environment *env, int width, int height, bool do_not_init)
+    EnvironmentDisplay::EnvironmentDisplay(Environment *, int , int , bool )
     {
     }
     EnvironmentDisplay::~EnvironmentDisplay()
     {
     }
-    void EnvironmentDisplay::Redraw(Environment *env)
+    void EnvironmentDisplay::Redraw(Environment *)
     {
     }
     void EnvironmentDisplay::Redraw()
     {
     }
 
-    void EnvironmentDisplay::SetColor(float *material)
+    void EnvironmentDisplay::SetColor(float *)
     {
     }
 
-    void EnvironmentDisplay::SetEnv(Environment *env_in)
+    void EnvironmentDisplay::SetEnv(Environment *)
     {
     }
     
-    void EnvironmentDisplay::DrawText(int x, int y, const char *str)
+    void EnvironmentDisplay::DrawText(int , int , const char *)
     {
     }
 
-    void EnvironmentDisplay::DrawLine(int x1, int y1, int x2, int y2)
+    void EnvironmentDisplay::DrawLine(int , int , int , int )
     {
     }
 
-    void EnvironmentDisplay::DrawCircle(int x1, int y1, int radius)
+    void EnvironmentDisplay::DrawCircle(int , int , int )
     {
     }
 
-    void EnvironmentDisplay::DrawRectangle(int x1, int y1, int x2, int y2)
+    void EnvironmentDisplay::DrawRectangle(int , int , int , int )
     {
     }
 
-    void EnvironmentDisplay::DrawTriangle(int x1, int y1, int x2, int y2,
-                                          int x3, int y3)
+    void EnvironmentDisplay::DrawTriangle(int , int , int , int ,
+                                          int , int )
     {
     }
   }

@@ -29,7 +29,7 @@ namespace ai
       Sentence *Parse(const std::string &str_in);
     protected:
       bool Match(const TokenType &type_in);
-      Sentence       *pSentence(std::list<Token>::const_iterator &curr_token);
+      Sentence       *pSentence();
       Sentence0      *pSentence0();
       Sentence0      *pSentence0Tail(Sentence0 *lhs_in);
       Sentence1      *pSentence1();
@@ -43,7 +43,7 @@ namespace ai
       AtomicSentence *pAtomicSentence();
       VariableList   *pVariableList();
       VariableList   *pVariableListTail(VariableList *lhs_in);
-      TermList       *pTermList(std::list<Token>::const_iterator &curr_token);
+      TermList       *pTermList();
       TermList       *pTermListTail(TermList *lhs_in);
       Term           *pTerm();
       Identifier     *pIdentifier();

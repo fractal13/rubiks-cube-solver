@@ -5,7 +5,7 @@ namespace ai
 {
   namespace PL
   {
-    Symbol::State operator++(Symbol::State &lhs, int x)
+    Symbol::State operator++(Symbol::State &lhs, int)
     {
       Symbol::State copy = lhs;
       switch(lhs)

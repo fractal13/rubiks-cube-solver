@@ -61,7 +61,7 @@ namespace ai
         }
       return true;
     }
-    const State * const Algorithm::GetSolution() const
+    const State * Algorithm::GetSolution() const
     {
       return this->solution;
     }

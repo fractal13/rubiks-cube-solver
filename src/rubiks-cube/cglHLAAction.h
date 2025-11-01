@@ -17,7 +17,7 @@ namespace cgl {
       virtual void Display() const;
 
       const std::vector< std::pair< Color, Direction > >& getRotations( ) const;
-      const double getCost( ) const;
+      double getCost( ) const;
 
       const RubiksCube& getCurrentGoal( ) const;
 

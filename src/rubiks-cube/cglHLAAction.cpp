@@ -50,7 +50,7 @@ namespace cgl {
       return mRotations;
     }
 
-    const double HLAAction::getCost( ) const {
+    double HLAAction::getCost( ) const {
       return static_cast< double >( mRotations.size( ) );
     }
     

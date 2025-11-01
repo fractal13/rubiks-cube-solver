@@ -1018,6 +1018,7 @@ namespace ai
                                          std::vector<Symbol *>   &pure_symbols)
     {
 #if PURE_DATA
+      (void) unknown_clauses;
       PureDataFindSymbols(unassigned_symbols, pure_symbols);
 #else /* ! PURE_DATA */
       std::map<std::string, Symbol *> my_symbol_map;

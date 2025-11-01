@@ -57,7 +57,7 @@ namespace cgl {
       std::cout << std::endl;
     }
 
-    void initialize_solved_cube( std::istream& is, cgl::cube::RubiksCube& cube ) {
+    void initialize_solved_cube( std::istream& /*is*/, cgl::cube::RubiksCube& cube ) {
       cube.setSolved( );
     }
 
@@ -65,14 +65,14 @@ namespace cgl {
       is >> cube;
     }
 
-    void initialize_line_cube( std::istream& is, AppData& data ) {
+    void initialize_line_cube( std::istream& /*is*/, AppData& data ) {
       if ( data.words.size( ) < 2 ) {
         throw cgl::cube::Exception( std::string( "Bad initial_line command: '" ) + data.words[ 0 ] + std::string( "'." ) );
       }
       data.cube.setFromOneLineDisplay( data.words[ 1 ] );
     }
 
-    void initialize_line_goal_cube( std::istream& is, AppData& data ) {
+    void initialize_line_goal_cube( std::istream& /*is*/, AppData& data ) {
       if ( data.words.size( ) < 2 ) {
         throw cgl::cube::Exception( std::string( "Bad goal_line command: '" ) + data.words[ 0 ] + std::string( "'." ) );
       }
@@ -584,7 +584,7 @@ namespace cgl {
       cgl::cube::RubiksCube::saveKnownCubes( );
     }
 
-    void dump_known_cubes( cgl::cube::RubiksCube& cube, const std::vector< std::string >& words, std::map< std::string, double >& config ) {
+    void dump_known_cubes( cgl::cube::RubiksCube& cube, const std::vector< std::string >& words, std::map< std::string, double >& /*config*/ ) {
       int do_label = 0;
       if ( words.size( ) < 2 ) {
         do_label = 0;
@@ -610,7 +610,7 @@ namespace cgl {
       
     }
 
-    void save_known_cubes( cgl::cube::RubiksCube& cube, const std::vector< std::string >& words, std::map< std::string, double >& config ) {
+    void save_known_cubes( cgl::cube::RubiksCube& /*cube*/, const std::vector< std::string >& /*words*/, std::map< std::string, double >& /*config*/ ) {
       //std::cout << "Saving known cubes..." << std::flush;
       std::chrono::steady_clock::time_point t0 = std::chrono::steady_clock::now( );
       cgl::cube::RubiksCube::saveKnownCubes( );

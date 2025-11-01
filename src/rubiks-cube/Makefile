@@ -1,13 +1,15 @@
+include ../../vars.mk
+
 SRCDIR := .
 BUILDDIR_ROOT := ../../build
 BUILDDIR_LOCAL := $(BUILDDIR_ROOT)/rubiks-cube
 
-CXXFLAGS += -I$(SRCDIR) -I../ai-lib/include -MMD -MP -MF $(shell pwd)/$(DEPDIR)/$*.d
+CXXFLAGS += -I$(SRCDIR) -I../ai-lib/include -MMD -MP -MF $(BUILDDIR_LOCAL)/$*.d
 
 SOURCES := $(wildcard $(SRCDIR)/*.cpp)
 OBJECTS := $(patsubst $(SRCDIR)/%.cpp,$(BUILDDIR_LOCAL)/%.o,$(SOURCES))
 
-.PHONY: all clean
+.PHONY: clean
 
 all: $(BUILDDIR_LOCAL) $(OBJECTS)
 
@@ -19,6 +21,6 @@ $(BUILDDIR_LOCAL)/%.o: $(SRCDIR)/%.cpp
 
 clean:
 	rm -f $(OBJECTS)
-	rm -rf $(BUILDDIR_LOCAL) $(DEPDIR)
+	rm -rf $(BUILDDIR_LOCAL)
 
--include $(wildcard $(DEPDIR)/*.d)
+-include $(wildcard $(BUILDDIR_LOCAL)/*.d)

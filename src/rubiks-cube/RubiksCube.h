@@ -69,6 +69,7 @@ namespace cgl {
       bool operator==( const RubiksCube& rhs ) const;
       bool operator!=( const RubiksCube& rhs ) const;
       bool operator<( const RubiksCube& rhs ) const;
+      RubiksCube( const RubiksCube& src );
       RubiksCube& operator=( const RubiksCube& rhs );
       void mergeWildcard( const RubiksCube& wildcard );
       void setSolved( );
