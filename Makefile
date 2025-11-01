@@ -5,20 +5,24 @@ TARGET := rubiks-cube-solver
 
 SUBDIRS := src/ai-lib src/rubiks-cube
 
-ALL_OBJECTS := $(shell find $(BUILDDIR) -name "*.o" -type f)
+# Library path
+LIBRARY := $(BUILDDIR)/libai.a
 
 .PHONY: all $(SUBDIRS) clean
 
-all: $(BUILDDIR) $(SUBDIRS) $(TARGET)
+all: $(BUILDDIR) $(LIBRARY) $(SUBDIRS) $(TARGET)
 
 $(BUILDDIR):
 	mkdir -p $(BUILDDIR)
 
+$(LIBRARY): src/ai-lib
+	$(MAKE) -C $< all
+
 $(SUBDIRS):
 	$(MAKE) -C $@ all
 
-$(TARGET): $(ALL_OBJECTS)
-	$(CXX) $(ALL_OBJECTS) -o $(TARGET) $(LDFLAGS)
+$(TARGET): $(LIBRARY)
+	$(CXX) $(BUILDDIR)/rubiks-cube/*.o $(LIBRARY) -o $(TARGET) $(LDFLAGS)
 
 clean:
 	rm -f $(TARGET)

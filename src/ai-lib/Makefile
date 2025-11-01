@@ -5,17 +5,24 @@ BUILDDIR_ROOT := ../../build
 BUILDDIR_LOCAL := $(BUILDDIR_ROOT)/ai-lib
 DEPDIR := $(BUILDDIR_LOCAL)/.deps
 
+# Library name
+LIBNAME := libai.a
+
 VPATH := src/Agent src/CSP src/FOL src/FOL/more_parsing src/LocalSearch src/PL src/PL/cc src/Search src/Support
 
 # Explicitly specify which source files to compile, excluding the conflicting implementation
 SOURCES := $(filter-out src/PL/KnowledgeBase.cpp,$(foreach dir,$(VPATH),$(wildcard $(dir)/*.cpp)))
 OBJECTS := $(patsubst src/%.cpp,$(BUILDDIR_LOCAL)/%.o,$(SOURCES))
+LIBRARY := $(BUILDDIR_ROOT)/$(LIBNAME)
 
 CXXFLAGS += -I$(SRCDIR)/include -MMD -MP -MF $(DEPDIR)/$*.d
 
 .PHONY: all clean
 
-all: $(BUILDDIR_LOCAL) $(DEPDIR) $(OBJECTS)
+all: $(LIBRARY)
+
+$(LIBRARY): $(BUILDDIR_LOCAL) $(DEPDIR) $(OBJECTS)
+	ar rcs $@ $(OBJECTS)
 
 OBJDIRS := $(sort $(patsubst src/%,$(BUILDDIR_LOCAL)/%,$(dir $(SOURCES))))
 $(BUILDDIR_LOCAL): $(OBJDIRS)
@@ -33,7 +40,7 @@ $(BUILDDIR_LOCAL)/%.o: src/%.cpp
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
 clean:
-	rm -f $(OBJECTS)
+	rm -f $(OBJECTS) $(LIBRARY)
 	rm -rf $(BUILDDIR_LOCAL) $(DEPDIR)
 
 -include $(wildcard $(DEPDIR)/*.d)
