@@ -750,8 +750,8 @@ namespace cgl {
       config[ "depth_limit" ] = 0;
       config[ "astar_limit" ] = 0;
 #if ALLOW_180          
-      //config[ "allow_180" ] = 0;
-      config[ "allow_180" ] = 1;
+      config[ "allow_180" ] = 0;
+      //config[ "allow_180" ] = 1;
 #endif
 #if ALLOW_MIDDLE_ROTATE
       config[ "allow_middle_rotate" ] = 0;
