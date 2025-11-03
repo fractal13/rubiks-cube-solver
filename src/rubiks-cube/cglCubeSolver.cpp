@@ -133,6 +133,8 @@ namespace cgl {
       search = 0; frontier = 0; problem = 0; initial_state = 0;
     }
 
+    void show_config( const std::map< std::string, double >& config );
+
     void shuffle_cube_aux( cgl::cube::RubiksCube& cube, const int& count, std::map< std::string, double >& config ) {
       int i;
       for( i = 0 ; i < count ; i++ ) {
@@ -610,6 +612,14 @@ namespace cgl {
   
     }
 
+    void show_config( const std::map< std::string, double >& config ) {
+      std::cout << "Current Configuration:" << std::endl;
+      for (const auto& pair : config) {
+        std::cout << "  " << pair.first << ": " << pair.second << std::endl;
+      }
+      std::cout << std::endl;
+    }
+
     void help_command() {
       std::cout << "Rubiks Cube Solver Help" << std::endl;
       std::cout << "=======================" << std::endl;
@@ -631,6 +641,7 @@ namespace cgl {
       std::cout << "  solve_save <tree|graph> <frontier> - Solve and save solution for later use" << std::endl;
       std::cout << "  hla_solve                        - Solve using HLA algorithm" << std::endl;
       std::cout << "  config <param> <value>           - Configure search parameters" << std::endl;
+      std::cout << "  show_config                      - Display current configuration settings" << std::endl;
       std::cout << "  find <corner|edge>               - Find position of corner or edge piece" << std::endl;
       std::cout << "  isequal <cube>                   - Check if current cube equals given cube" << std::endl;
       std::cout << "  generate <depth>                 - Generate all cubes within given depth" << std::endl;
@@ -758,6 +769,8 @@ namespace cgl {
           generate_cubes( data.cube, data.words, data.config );
         } else if ( data.words[ 0 ] == "dump_known_cubes" ) { 
           dump_known_cubes( data.cube, data.words, data.config );
+        } else if ( data.words[ 0 ] == "show_config" ) { 
+          show_config( data.config );
         } else if ( data.words[ 0 ] == "help" ) { 
           help_command();
         } else if ( data.words[ 0 ] == "quit" || data.words[ 0 ] == "exit" ) { 
