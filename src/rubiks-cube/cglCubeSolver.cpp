@@ -667,7 +667,7 @@ namespace cgl {
       //std::cout << "Saved in " << time_span.count( ) << " seconds." << std::endl;
     }
     
-    void process_input_stream_aux( std::istream& is, AppData& data );
+    void process_input_stream_aux( std::istream& is, AppData& data, bool show_prompt );
 
     void repeat_file( AppData& data ) {
       if ( data.words.size( ) < 3 ) {
@@ -688,7 +688,7 @@ namespace cgl {
         std::chrono::steady_clock::time_point t1 = std::chrono::steady_clock::now( );
         std::ifstream fin( filename );
         if( fin ) {
-          process_input_stream_aux( fin, data );
+          process_input_stream_aux( fin, data, false );
           fin.close( );
         } else {
           throw cgl::cube::Exception( std::string( "Bad repeat command file: '" ) + filename + std::string( "'." ) );
@@ -714,9 +714,18 @@ namespace cgl {
 
     }
 
-    void process_input_stream_aux( std::istream& is, AppData& data ) {
+    bool prompt(bool show_prompt) {
+      if ( show_prompt ) {
+        std::cout << "rubiks> ";
+        std::cout.flush();
+      }
+      return true;
+    }
+
+    void process_input_stream_aux( std::istream& is, AppData& data, bool show_prompt ) {
       
-      while( read_one_line( is, data.words ) ) {
+      while( prompt(show_prompt) && read_one_line( is, data.words ) ) {
+    
         if ( data.words.size( ) == 0 ) {
           continue;
         } else if ( data.words[ 0 ].size( ) == 0 ) {
@@ -781,7 +790,7 @@ namespace cgl {
       }
     }
 
-    void process_input_stream( std::istream& is ) {
+    void process_input_stream( std::istream& is, bool show_prompt ) {
       /* srand seeds at 100 usecond resolution */
       struct timeval time; 
       gettimeofday(&time,NULL);
@@ -821,7 +830,7 @@ namespace cgl {
       config[ "known_cube_report_count" ] = 0.0;
       config[ "apply_solution" ] = 0;
 
-      process_input_stream_aux( is, data );      
+      process_input_stream_aux( is, data, show_prompt );
     }
   }
 }

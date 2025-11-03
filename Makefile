@@ -21,8 +21,8 @@ $(LIBRARY): src/ai-lib
 $(SUBDIRS):
 	$(MAKE) -C $@ all
 
-$(TARGET): $(LIBRARY)
-	$(CXX) $(BUILDDIR)/rubiks-cube/*.o $(LIBRARY) -o $(TARGET) $(LDFLAGS)
+$(TARGET): $(LIBRARY) $(BUILDDIR)/rubiks-cube/*.o
+	$(CXX) $(wildcard $(BUILDDIR)/rubiks-cube/*.o) $(LIBRARY) -o $(TARGET) $(LDFLAGS)
 
 clean:
 	rm -f $(TARGET)
