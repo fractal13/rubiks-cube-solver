@@ -607,7 +607,43 @@ namespace cgl {
         }
         std::cout << std::endl;
       }
-      
+  
+    }
+
+    void help_command() {
+      std::cout << "Rubiks Cube Solver Help" << std::endl;
+      std::cout << "=======================" << std::endl;
+      std::cout << "Available commands:" << std::endl;
+      std::cout << "  echo <text>                      - Display text" << std::endl;
+      std::cout << "  initial_solved                   - Set cube to solved state" << std::endl;
+      std::cout << "  initial_line <state>             - Set cube from one-line display" << std::endl;
+      std::cout << "  initial <file>                   - Set cube from file" << std::endl;
+      std::cout << "  show                             - Display current cube" << std::endl;
+      std::cout << "  show_line                        - Display cube in one-line format" << std::endl;
+      std::cout << "  goal_solved                      - Set goal cube to solved state" << std::endl;
+      std::cout << "  goal_line <state>                - Set goal cube from one-line display" << std::endl;
+      std::cout << "  show_goal_line                   - Display goal cube in one-line format" << std::endl;
+      std::cout << "  goal <file>                      - Set goal cube from file" << std::endl;
+      std::cout << "  rotate <face> <direction>        - Rotate a face (cw, ccw, 180)" << std::endl;
+      std::cout << "  shuffle <count>                  - Shuffle cube with random rotations" << std::endl;
+      std::cout << "  shuffle_range <min> <max>        - Shuffle with random count between min and max" << std::endl;
+      std::cout << "  solve <tree|graph> <frontier>    - Solve the cube using search algorithm" << std::endl;
+      std::cout << "  solve_save <tree|graph> <frontier> - Solve and save solution for later use" << std::endl;
+      std::cout << "  hla_solve                        - Solve using HLA algorithm" << std::endl;
+      std::cout << "  config <param> <value>           - Configure search parameters" << std::endl;
+      std::cout << "  find <corner|edge>               - Find position of corner or edge piece" << std::endl;
+      std::cout << "  isequal <cube>                   - Check if current cube equals given cube" << std::endl;
+      std::cout << "  generate <depth>                 - Generate all cubes within given depth" << std::endl;
+      std::cout << "  dump_known_cubes [<label>]       - Display known cubes" << std::endl;
+      std::cout << "  save_known_cubes                 - Save known cubes to file" << std::endl;
+      std::cout << "  repeat <count> <filename>        - Repeat commands from a file" << std::endl;
+      std::cout << "  help                             - Display this help message" << std::endl;
+      std::cout << "  quit/exit                        - Terminate the program" << std::endl;
+      std::cout << std::endl;
+      std::cout << "Supported faces: white, green, red, blue, orange, yellow" << std::endl;
+      std::cout << "Supported directions: cw, ccw, 180 (if enabled)" << std::endl;
+      std::cout << "Supported frontiers: astar, bfs, dfs, dl, ids, al, greedy, uc" << std::endl;
+      std::cout << std::endl;
     }
 
     void save_known_cubes( cgl::cube::RubiksCube& /*cube*/, const std::vector< std::string >& /*words*/, std::map< std::string, double >& /*config*/ ) {
@@ -722,6 +758,10 @@ namespace cgl {
           generate_cubes( data.cube, data.words, data.config );
         } else if ( data.words[ 0 ] == "dump_known_cubes" ) { 
           dump_known_cubes( data.cube, data.words, data.config );
+        } else if ( data.words[ 0 ] == "help" ) { 
+          help_command();
+        } else if ( data.words[ 0 ] == "quit" || data.words[ 0 ] == "exit" ) { 
+          return;
         } else { 
           throw cgl::cube::Exception( std::string( "Unexpected command: '" ) + data.words[ 0 ] + std::string( "'." ) );
         }
