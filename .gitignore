@@ -43,3 +43,4 @@
 # Build artifacts
 build/
 rubiks-cube-solver
+*~

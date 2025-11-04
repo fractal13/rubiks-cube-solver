@@ -455,7 +455,7 @@ namespace cgl {
 #endif
 #if ALLOW_MIDDLE_ROTATE
               case cgl::cube::Action::ROTATE_MIDDLE_UP: std::cout << "up"; direction = cgl::cube::Direction::ROTATE_MIDDLE_UP; break;
-              case cgl::cube::Action::ROTATE_MIDDLE_DOWN: std::cout << "down"; direction = cgl::cube::Direction::ROTATE_MIDDLE_DOWN break;
+              case cgl::cube::Action::ROTATE_MIDDLE_DOWN: std::cout << "down"; direction = cgl::cube::Direction::ROTATE_MIDDLE_DOWN; break;
               case cgl::cube::Action::ROTATE_MIDDLE_LEFT: std::cout << "left"; direction = cgl::cube::Direction::ROTATE_MIDDLE_LEFT; break;
               case cgl::cube::Action::ROTATE_MIDDLE_RIGHT: std::cout << "right"; direction = cgl::cube::Direction::ROTATE_MIDDLE_RIGHT; break;
 #endif
@@ -518,7 +518,7 @@ namespace cgl {
 
       } else {
 #if ALLOW_180          
-        throw cgl::cube::Exception( std::string( "usage: config generation_limit|storage_limit|depth_limit|astar_limit|allow_180 number.\nNot enough parameters in command." ) );
+        throw cgl::cube::Exception( std::string( "usage: config generation_limit|storage_limit|depth_limit|astar_limit|allow_180|allow_middle_rotate number.\nNot enough parameters in command." ) );
 #else
         throw cgl::cube::Exception( std::string( "usage: config generation_limit|storage_limit|depth_limit|astar_limit number.\nNot enough parameters in command." ) );
 #endif
@@ -652,7 +652,7 @@ namespace cgl {
       std::cout << "  quit/exit                        - Terminate the program" << std::endl;
       std::cout << std::endl;
       std::cout << "Supported faces: white, green, red, blue, orange, yellow" << std::endl;
-      std::cout << "Supported directions: cw, ccw, 180 (if enabled)" << std::endl;
+      std::cout << "Supported directions: cw, ccw, 180 (if enabled), up, down, left, right (for middle slices, if enabled)" << std::endl;
       std::cout << "Supported frontiers: astar, bfs, dfs, dl, ids, al, greedy, uc" << std::endl;
       std::cout << std::endl;
     }

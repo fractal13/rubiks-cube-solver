@@ -7,7 +7,7 @@
 #include <map>
 
 #define ALLOW_180 1
-#define ALLOW_MIDDLE_ROTATE 0
+#define ALLOW_MIDDLE_ROTATE 1
 
 namespace cgl {
   namespace cube {
