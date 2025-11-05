@@ -734,6 +734,11 @@ namespace cgl {
       }
     }
 
+    int quit_command( AppData& data ) {
+      data.done = true;
+      return EXIT_OK;
+    }
+
     void makeActionMap( AppData& data ) {
       data.actions.clear( );
       data.actions[ "echo" ] = { echo, "echo", "echo word*", "Displays the words of its line separated by a single space." };
@@ -751,6 +756,8 @@ namespace cgl {
       data.actions[ "help" ] = { help, "help", "help command?", "Displays a list of commands.  If a command is given, only help on that command is displayed." };
       data.actions[ "run" ] = { run, "run", "run filename", "Runs the commands in filename as if they were typed.  Turns off the prompt while reading the file." };
       data.actions[ "exit_if" ] = { exit_if, "exit_if", "exit_if not_equal_goal", "Stops execution if the condition holds." };
+      data.actions[ "quit" ] = { quit_command, "quit", "quit", "Exits the program." };
+      data.actions[ "exit" ] = { quit_command, "exit", "exit", "Exits the program." };
     }
     /*
      * Commands
