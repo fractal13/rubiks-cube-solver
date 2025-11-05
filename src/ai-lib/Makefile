@@ -15,7 +15,9 @@ SOURCES := $(filter-out src/PL/KnowledgeBase.cpp,$(foreach dir,$(VPATH),$(wildca
 OBJECTS := $(patsubst src/%.cpp,$(BUILDDIR_LOCAL)/%.o,$(SOURCES))
 LIBRARY := $(BUILDDIR_ROOT)/$(LIBNAME)
 
-CXXFLAGS += -I$(SRCDIR)/include -MMD -MP -MF $(DEPDIR)/$*.d
+DEPFLAGS = -MT $@ -MMD -MP -MF $(DEPDIR)/$*.d
+CXXFLAGS += -I$(SRCDIR)/include
+CXXFLAGS += -I$(SRCDIR)/include
 
 .PHONY: all clean
 
@@ -36,8 +38,12 @@ $(DEPDIR): $(DEPDIRS)
 $(DEPDIRS):
 	mkdir -p $@
 
-$(BUILDDIR_LOCAL)/%.o: src/%.cpp
-	$(CXX) $(CXXFLAGS) -c $< -o $@
+
+.PRECIOUS: $(DEPDIR)/%.d
+$(DEPDIR)/%.d: $(DEPDIR);
+
+$(BUILDDIR_LOCAL)/%.o: src/%.cpp $(DEPDIR)/%.d
+	$(CXX) $(CXXFLAGS) $(DEPFLAGS) -c $< -o $@
 
 clean:
 	rm -f $(OBJECTS) $(LIBRARY)

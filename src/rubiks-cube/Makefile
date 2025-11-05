@@ -3,24 +3,31 @@ include ../../vars.mk
 SRCDIR := .
 BUILDDIR_ROOT := ../../build
 BUILDDIR_LOCAL := $(BUILDDIR_ROOT)/rubiks-cube
+DEPDIR := $(BUILDDIR_LOCAL)/.deps
 
-CXXFLAGS += -I$(SRCDIR) -I../ai-lib/include -MMD -MP -MF $(BUILDDIR_LOCAL)/$*.d
+DEPFLAGS = -MT $@ -MMD -MP -MF $(DEPDIR)/$*.d
+CXXFLAGS += -I$(SRCDIR) -I../ai-lib/include
 
 SOURCES := $(wildcard $(SRCDIR)/*.cpp)
 OBJECTS := $(patsubst $(SRCDIR)/%.cpp,$(BUILDDIR_LOCAL)/%.o,$(SOURCES))
 
-.PHONY: clean
+.PHONY: all clean
+.PRECIOUS: $(DEPDIR)/%.d
 
-all: $(BUILDDIR_LOCAL) $(OBJECTS)
+all: $(BUILDDIR_LOCAL) $(DEPDIR) $(OBJECTS)
+
+$(DEPDIR):
+	mkdir -p $@
 
 $(BUILDDIR_LOCAL):
-	mkdir -p $(BUILDDIR_LOCAL)
+	mkdir -p $@
 
-$(BUILDDIR_LOCAL)/%.o: $(SRCDIR)/%.cpp
-	$(CXX) $(CXXFLAGS) -c $< -o $@
+$(DEPDIR)/%.d: $(DEPDIR);
+$(BUILDDIR_LOCAL)/%.o: $(SRCDIR)/%.cpp $(DEPDIR)/%.d
+	$(CXX) $(CXXFLAGS) $(DEPFLAGS) -c $< -o $@
 
 clean:
 	rm -f $(OBJECTS)
 	rm -rf $(BUILDDIR_LOCAL)
 
--include $(wildcard $(BUILDDIR_LOCAL)/*.d)
+-include $(wildcard $(DEPDIR)/*.d)

@@ -1,12 +1,13 @@
 # Rubik's Cube Solver
 
-This project provides a C++ application for solving a 3x3x3 Rubik's Cube. It features a robust cube representation, a comprehensive set of cube manipulation moves, and a solver capable of operating in both interactive and pipe-based modes.
+This project provides a C++ application for solving a 3x3x3 Rubik's Cube. It features a robust cube representation, a comprehensive set of cube manipulation moves, and a solver. It is capable of operating in both interactive and pipe-based modes.
 
 ## Features
 
 *   **Rubik's Cube Representation:** A detailed internal representation of a 3x3x3 Rubik's Cube state.
 *   **Extensive Move Set:** Supports standard face rotations (U, L, F, R, B, D), their inverse (prime) counterparts, slice rotations (M, E, S), and whole-cube rotations (X, Y, Z).
-*   **Solving Algorithm:** Implements an algorithm to find a solution for a scrambled Rubik's Cube.
+*   **Solving Algorithm:** Implements classic search algorithms: tree or graph with BFS, DFS, A*, etc. to find a solution for a scrambled Rubik's Cube.
+*   **Partial Solution:** Custom goal states may be specified to search for partial solutions.
 *   **Interactive Mode:** Allows users to input moves one by one and observe the cube's state.
 *   **Pipe-based Mode:** Enables automated processing of cube states or move sequences from standard input, suitable for scripting or integration with other tools.
 
@@ -161,7 +162,8 @@ The `rotate` command uses the following notation:
 *   **Directions:**
     *   `cw`: Clockwise 90-degree turn
     *   `ccw`: Counter-clockwise 90-degree turn
-    *   `180`: 180-degree turn (if `ALLOW_180` is enabled during compilation)
+    *   `180`: 180-degree turn (if `allow_180` is configured on)
+    *   `up`,`down`,`left`,`right`: middle slice turns (if `allow_middle_rotate` is configured on)
 
 The standard Rubik's Cube notation (U, L, F, R, B, D, etc.) is mapped to these internal commands. For example, `U` corresponds to `rotate white cw`. Middle slice turns (M, E, S) and whole-cube rotations (x, y, z) are also supported if `ALLOW_MIDDLE_ROTATE` is enabled during compilation, with corresponding `rotate` commands (e.g., `rotate red up` for M).
 
