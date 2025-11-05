@@ -1,16 +1,8 @@
-# Makefile for LocalSearch subdirectory
+PROJECT_ROOT := $(CURDIR)/../../../..
+export PROJECT_ROOT
+include $(PROJECT_ROOT)/src/mk/header.mk
 
-include ../../common.mk
+all: $(OBJECTS)
 
-SRCS = $(wildcard *.cpp)
-OBJS = $(patsubst %.cpp,%.o,$(SRCS))
-
-.PHONY: all clean depend
-
-all: $(OBJS)
-
-clean:
-	rm -f $(OBJS) *.d
-
-depend:
-	$(CXX) $(CXXFLAGS) -MMD -MP $(SRCS)
+include $(PROJECT_ROOT)/src/mk/rules.mk
+include $(PROJECT_ROOT)/src/mk/footer.mk

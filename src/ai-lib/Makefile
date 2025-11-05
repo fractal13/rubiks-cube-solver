@@ -1,11 +1,11 @@
 # Root Makefile for ai-lib
 
-include common.mk
-
-CXXFLAGS += -I$(CURDIR)/include
+PROJECT_ROOT := $(CURDIR)/../..
+export PROJECT_ROOT
+include $(PROJECT_ROOT)/src/mk/header.mk
 
 LIB_NAME = ai
-LIB_DIR = ../../lib
+LIB_DIR = ./lib
 
 SUBDIRS = \
 	src/Agent \
@@ -19,9 +19,10 @@ SUBDIRS = \
 # Find all object files in subdirectories
 ALL_OBJS = $(foreach dir,$(SUBDIRS),$(patsubst $(dir)/%.cpp,$(dir)/%.o,$(wildcard $(dir)/*.cpp)))
 
+
 .PHONY: all clean depend $(SUBDIRS)
 
-all: $(LIB_DIR)/lib$(LIB_NAME).a
+all: $(SUBDIRS) $(LIB_DIR)/lib$(LIB_NAME).a
 
 $(LIB_DIR)/lib$(LIB_NAME).a: $(ALL_OBJS)
 	mkdir -p $(LIB_DIR)
@@ -33,8 +34,3 @@ $(SUBDIRS):
 clean:
 	$(foreach dir,$(SUBDIRS),$(MAKE) -C $(dir) clean;)
 	rm -f $(LIB_DIR)/lib$(LIB_NAME).a
-	rm -f $(ALL_OBJS)
-
-# Re-generate dependencies for all subdirectories
-depend:
-	$(foreach dir,$(SUBDIRS),$(MAKE) -C $(dir) depend;)
