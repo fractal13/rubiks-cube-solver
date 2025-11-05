@@ -18,6 +18,8 @@
 #include <chrono>
 #include <map>
 #include <algorithm>
+#include <unistd.h> // For isatty
+#include <cstdio>   // For fileno
 
 namespace cgl {
   namespace rubiks {
@@ -745,7 +747,7 @@ namespace cgl {
       data.actions[ "rotate" ] =  { rotate, "rotate", "rotate [U|U'|L|L'|F|F'|R|R'|B|B'|D|D']+", "Rotates through the given sequence.  The moves must be separated by whitespace." };
       data.actions[ "moves" ] = { moves, "moves", "moves [U|U'|L|L'|F|F'|R|R'|B|B'|D|D']+|basic", "Restricts legal moves to those listed, or the basic 12 moves augmented by enable_half and enable_slice configuration options." };
       data.actions[ "show" ]   = { show, "show", "show config|cube|goal|moves|defined_moves|defined_cubes|defined_plan_actions", "Displays the requested item." };
-      data.actions[ "define" ] = { define, "define", "define cube|move|plan_action object_name object_configuration", "Defines a named object of the specified type.  Cubes are defined by the 54 tile characters.  Spaces and tabs are skipped. Wildcard characters are allowed. Cubes may also be defined by a list of space separated cubes, 54 tile characters or names of defined cubes.  The result is the logical AND of all cubes in the list.  Moves are defined by one or more already defined moves, e.g. F U R U' R' F'.  Plan actions are defined as 'precondition cube1 cube2 ... effect move1 move2 ... There must be one or more cubes in the precondition, and 1 or more moves in the effect." };
+      data.actions[ "define" ] = { define, "define", "define cube|move|plan_action object_name object_configuration", "Defines a named object of the specified type.  Cubes are defined by the 54 tile characters.  Spaces and tabs are skipped. Wildcard characters are allowed. Cubes may also be defined by a list of space separated cubes, 54 tile characters or names of defined cubes.  The result is the logical AND of all cubes in the list.  Moves are defined by one or more already defined moves, e.g. F U R U' R' F'.  Plan actions are defined as 'precondition cube1 cube2 ... effect move1 move2 ...' There must be one or more cubes in the precondition, and 1 or more moves in the effect." };
       data.actions[ "help" ] = { help, "help", "help command?", "Displays a list of commands.  If a command is given, only help on that command is displayed." };
       data.actions[ "run" ] = { run, "run", "run filename", "Runs the commands in filename as if they were typed.  Turns off the prompt while reading the file." };
       data.actions[ "exit_if" ] = { exit_if, "exit_if", "exit_if not_equal_goal", "Stops execution if the condition holds." };
@@ -888,13 +890,16 @@ namespace cgl {
 
 
     // "main" program control
-    void process_input_stream( std::istream& is, std::ostream& os ) {
+    void process_input_stream( std::istream& is, std::ostream& os, bool is_tty ) {
       /* srand seeds at 100 usecond resolution */
       struct timeval time;
       gettimeofday(&time,NULL);
       srand((time.tv_sec * 10000) + (time.tv_usec / 100));
       
       AppData data( is, os );
+      if( !is_tty ) {
+        data.config.disablePrompt( );
+      }
       makeActionMap( data );
 
       process_input_stream_aux( data );
@@ -907,6 +912,6 @@ namespace cgl {
 }
 
 int main( ) {
-  cgl::rubiks::process_input_stream( std::cin, std::cout );
+  cgl::rubiks::process_input_stream( std::cin, std::cout, isatty( fileno( stdin ) ) );
   return 0;
 }
