@@ -4,6 +4,10 @@
 $(DEPDIR):
 	mkdir -p $@
 
+# Make the directory
+$(BIN_DIR):
+	mkdir -p $@
+
 # Cause directory to be built
 $(DEPDIR)/%.d: $(DEPDIR);
 
@@ -15,6 +19,5 @@ $(DEPDIR)/%.d: $(DEPDIR);
 clean:
 	-rm -f $(OBJECTS)
 
-$(TARGET): $(OBJECTS) $(AI_LIB)
+$(TARGET): $(OBJECTS) $(AI_LIB) $(BIN_DIR)
 	$(CXX) -o $@ $(OBJECTS) $(LDFLAGS)
-

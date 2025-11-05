@@ -1,7 +1,7 @@
 PROJECT_ROOT := $(CURDIR)/../..
 export PROJECT_ROOT
 include $(PROJECT_ROOT)/src/mk/header.mk
-TARGET := rubiks-cube-solver
+TARGET := $(BIN_DIR)/rubiks-cube-solver
 
 all: $(OBJECTS) $(TARGET)
 

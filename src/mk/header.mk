@@ -14,5 +14,6 @@ AI_LIB     := $(AI_LIB_DIR)/libai.a
 CXXFLAGS += -I$(AI_INCLUDE)
 
 LDFLAGS := -L $(AI_LIB_DIR) -lai
+BIN_DIR := $(PROJECT_ROOT)/bin
 
 .PRECIOUS: $(DEPDIR)/%.d
