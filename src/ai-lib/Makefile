@@ -1,52 +1,40 @@
-include ../../vars.mk
+# Root Makefile for ai-lib
 
-SRCDIR := .
-BUILDDIR_ROOT := ../../build
-BUILDDIR_LOCAL := $(BUILDDIR_ROOT)/ai-lib
-DEPDIR := $(BUILDDIR_LOCAL)/.deps
+include common.mk
 
-# Library name
-LIBNAME := libai.a
+CXXFLAGS += -I$(CURDIR)/include
 
-VPATH := src/Agent src/CSP src/FOL src/FOL/more_parsing src/LocalSearch src/PL src/PL/cc src/Search src/Support
+LIB_NAME = ai
+LIB_DIR = ../../lib
 
-# Explicitly specify which source files to compile, excluding the conflicting implementation
-SOURCES := $(filter-out src/PL/KnowledgeBase.cpp,$(foreach dir,$(VPATH),$(wildcard $(dir)/*.cpp)))
-OBJECTS := $(patsubst src/%.cpp,$(BUILDDIR_LOCAL)/%.o,$(SOURCES))
-LIBRARY := $(BUILDDIR_ROOT)/$(LIBNAME)
+SUBDIRS = \
+	src/Agent \
+	src/CSP \
+	src/FOL \
+	src/LocalSearch \
+	src/PL \
+	src/Search \
+	src/Support
 
-DEPFLAGS = -MT $@ -MMD -MP -MF $(DEPDIR)/$*.d
-CXXFLAGS += -I$(SRCDIR)/include
-CXXFLAGS += -I$(SRCDIR)/include
+# Find all object files in subdirectories
+ALL_OBJS = $(foreach dir,$(SUBDIRS),$(patsubst $(dir)/%.cpp,$(dir)/%.o,$(wildcard $(dir)/*.cpp)))
 
-.PHONY: all clean
+.PHONY: all clean depend $(SUBDIRS)
 
-all: $(LIBRARY)
+all: $(LIB_DIR)/lib$(LIB_NAME).a
 
-$(LIBRARY): $(BUILDDIR_LOCAL) $(DEPDIR) $(OBJECTS)
-	ar rcs $@ $(OBJECTS)
+$(LIB_DIR)/lib$(LIB_NAME).a: $(ALL_OBJS)
+	mkdir -p $(LIB_DIR)
+	$(AR) $(ARFLAGS) $@ $(ALL_OBJS)
 
-OBJDIRS := $(sort $(patsubst src/%,$(BUILDDIR_LOCAL)/%,$(dir $(SOURCES))))
-$(BUILDDIR_LOCAL): $(OBJDIRS)
-
-$(OBJDIRS):
-	mkdir -p $@
-
-DEPDIRS := $(sort $(patsubst src/%,$(DEPDIR)/%,$(dir $(SOURCES))))
-$(DEPDIR): $(DEPDIRS)
-
-$(DEPDIRS):
-	mkdir -p $@
-
-
-.PRECIOUS: $(DEPDIR)/%.d
-$(DEPDIR)/%.d: $(DEPDIR);
-
-$(BUILDDIR_LOCAL)/%.o: src/%.cpp $(DEPDIR)/%.d
-	$(CXX) $(CXXFLAGS) $(DEPFLAGS) -c $< -o $@
+$(SUBDIRS):
+	$(MAKE) -C $@
 
 clean:
-	rm -f $(OBJECTS) $(LIBRARY)
-	rm -rf $(BUILDDIR_LOCAL) $(DEPDIR)
+	$(foreach dir,$(SUBDIRS),$(MAKE) -C $(dir) clean;)
+	rm -f $(LIB_DIR)/lib$(LIB_NAME).a
+	rm -f $(ALL_OBJS)
 
--include $(wildcard $(DEPDIR)/*.d)
+# Re-generate dependencies for all subdirectories
+depend:
+	$(foreach dir,$(SUBDIRS),$(MAKE) -C $(dir) depend;)

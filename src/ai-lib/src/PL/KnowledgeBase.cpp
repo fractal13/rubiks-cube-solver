@@ -1098,6 +1098,7 @@ namespace ai
                                          std::vector<Symbol *>   &unassigned_symbols,
                                          std::vector<Symbol *>   &pure_symbols)
     {
+      (void)unknown_clauses; // Suppress unused parameter warning
 #if PURE_DATA
       PureDataFindSymbols(unassigned_symbols, pure_symbols);
 #else /* ! PURE_DATA */
