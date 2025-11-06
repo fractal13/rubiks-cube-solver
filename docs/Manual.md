@@ -133,48 +133,6 @@ The application also provides commands for managing configuration, running scrip
 
 **Description:** Defines a named object of the specified type. Cubes are defined by the 54 tile characters. Spaces and tabs are skipped. Wildcard characters are allowed. Cubes may also be defined by a list of space separated cubes, 54 tile characters or names of defined cubes. The result is the logical AND of all cubes in the list. Moves are defined by one or more already defined moves, e.g. `F U R U' R' F'`. Plan actions are defined as 'precondition cube1 cube2 ... effect move1 move2 ...' There must be one or more cubes in the precondition, and 1 or more moves in the effect.
 
-**Example Interaction:**
-
-Let's define a custom move called `SextupleU` which is equivalent to applying the `U` move six times. Then, we'll make it available and apply it to a solved cube.
-
-```
-init cube solved
-show cube
-# Output:
-#      www
-#      www
-#      www
-#
-# ggg  rrr  bbb  ooo
-# ggg  rrr  bbb  ooo
-# ggg  rrr  bbb  ooo
-#
-#      yyy
-#      yyy
-#      yyy
-
-define move SextupleU U U U U U U
-moves SextupleU
-show defined_moves
-# Output:
-# SextupleU : U U U U U U
-
-rotate SextupleU
-show cube
-# Output:
-#      www
-#      www
-#      www
-#
-# ggg  rrr  bbb  ooo
-# ggg  rrr  bbb  ooo
-# ggg  rrr  bbb  ooo
-#
-#      yyy
-#      yyy
-#      yyy
-```
-
 ---
 
 ### help
@@ -307,6 +265,102 @@ This format is similar to `one_word`, but the output is separated by spaces for 
 
 ```
 wwwwwwwww ggggggggg rrrrrrrrr bbbbbbbbb ooooooooo yyyyyyyyy
+```
+
+---
+
+## Example Usage
+
+**Custom Moves:**
+
+Let's define a custom move called `Checkerboard` which is `R2 L2 F2 B2 U2 D2`. We'll define it and make it available. Note that custom defined moves, once activated with the `moves` command, are available for use by the `rotate` command and by search algorithms.
+
+```
+cube> init cube solved
+cube> show cube
+Cube:
+     www
+     www
+     www
+
+ggg  rrr  bbb  ooo
+ggg  rrr  bbb  ooo
+ggg  rrr  bbb  ooo
+
+     yyy
+     yyy
+     yyy
+
+cube> define move Checkerboard R2 L2 F2 B2 U2 D2
+cube> show defined_moves
+Defined Moves:
+B : B
+B' : B'
+B2 : B B
+Checkerboard :  R R L L F F B B U U D D
+D : D
+D' : D'
+D2 : D D
+E : E
+E' : E'
+E2 : E E
+F : F
+F' : F'
+F2 : F F
+I :
+L : L
+L' : L'
+L2 : L L
+M : M
+M' : M'
+M2 : M M
+R : R
+R' : R'
+R2 : R R
+S : S
+S' : S'
+S2 : S S
+U : U
+U' : U'
+U2 : U U
+x : x
+x' : x'
+y : y
+y' : y'
+z : z
+z' : z'
+cube> moves U U' L L' F F' R R' B B' D D' Checkerboard
+cube> show moves
+Moves:
+B : B
+B' : B'
+Checkerboard :  R R L L F F B B U U D D
+D : D
+D' : D'
+F : F
+F' : F'
+L : L
+L' : L'
+R : R
+R' : R'
+U : U
+U' : U'
+cube> rotate Checkerboard
+cube> show cube
+Cube:
+     wyw
+     ywy
+     wyw
+
+gbg  ror  bgb  oro
+bgb  oro  gbg  ror
+gbg  ror  bgb  oro
+
+     ywy
+     wyw
+     ywy
+
+cube> quit
 ```
 
 ---
