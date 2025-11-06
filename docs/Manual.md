@@ -133,6 +133,48 @@ The application also provides commands for managing configuration, running scrip
 
 **Description:** Defines a named object of the specified type. Cubes are defined by the 54 tile characters. Spaces and tabs are skipped. Wildcard characters are allowed. Cubes may also be defined by a list of space separated cubes, 54 tile characters or names of defined cubes. The result is the logical AND of all cubes in the list. Moves are defined by one or more already defined moves, e.g. `F U R U' R' F'`. Plan actions are defined as 'precondition cube1 cube2 ... effect move1 move2 ...' There must be one or more cubes in the precondition, and 1 or more moves in the effect.
 
+**Example Interaction:**
+
+Let's define a custom move called `SextupleU` which is equivalent to applying the `U` move six times. Then, we'll make it available and apply it to a solved cube.
+
+```
+init cube solved
+show cube
+# Output:
+#      www
+#      www
+#      www
+#
+# ggg  rrr  bbb  ooo
+# ggg  rrr  bbb  ooo
+# ggg  rrr  bbb  ooo
+#
+#      yyy
+#      yyy
+#      yyy
+
+define move SextupleU U U U U U U
+moves SextupleU
+show defined_moves
+# Output:
+# SextupleU : U U U U U U
+
+rotate SextupleU
+show cube
+# Output:
+#      www
+#      www
+#      www
+#
+# ggg  rrr  bbb  ooo
+# ggg  rrr  bbb  ooo
+# ggg  rrr  bbb  ooo
+#
+#      yyy
+#      yyy
+#      yyy
+```
+
 ---
 
 ### help
