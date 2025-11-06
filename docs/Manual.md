@@ -218,7 +218,7 @@ This format displays the sub-moves that make up the move.
 **Example:**
 
 ```
-U : U
+U2 : U U
 ```
 
 ---
