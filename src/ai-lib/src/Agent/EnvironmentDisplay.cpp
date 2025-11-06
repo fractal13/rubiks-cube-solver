@@ -84,7 +84,7 @@ namespace ai
       int   y = height/2;
       GLfloat whiteMaterial[] = {1.0, 1.0, 1.0, 1.0};
       char  buf[128];
-      sprintf(buf,
+      snprintf(buf, sizeof(buf),
               "You have %zd objects and %zd agents.",
               env->objects.size(), env->agents.size());
 

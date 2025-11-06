@@ -1,7 +1,7 @@
 CXX := g++
 AR := ar
 CXXFLAGS := -Wall -Wextra -Wpedantic -Werror -std=c++20
-ARFLAGS := Ucrus
+ARFLAGS := crus
 DEPDIR := .d
 DEPFLAGS = -MT $@ -MMD -MP -MF $(DEPDIR)/$*.d
 

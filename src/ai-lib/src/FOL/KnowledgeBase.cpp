@@ -128,7 +128,7 @@ namespace ai
 	{ // This variable name is already used.  Make a new one.
 	  char buf[16];
 	  unique_count ++;
-	  std::sprintf(buf, "%d", unique_count);
+	  std::snprintf(buf, sizeof(buf), "%d", unique_count);
 	  unique_name = base_name + "_" + buf;
 	  symbol_it = symbols.find(unique_name);
 	}
