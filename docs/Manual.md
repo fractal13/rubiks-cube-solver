@@ -91,7 +91,7 @@ The application also provides commands for managing configuration, running scrip
 
 **Usage:** `search tree|graph astar|bfs|dfs|dl|ids|bl|al|greedy|uc`
 
-**Description:** Searches for a path from the current cube to the goal cube, which may contain wildcards. Uses the search algorithm and frontier specified. `dl` and `bl` require the `depth_limit` configuration. `ids` requires the `ids_limit` configuration. `al` requires the `astar_limit` configuration. All algorithms and frontiers require the `generation_limit` and `storage_limit` configurations. The `apply_solution` configuration controls whether a solution is applied to the current cube.
+**Description:** Searches for a path from the current cube to the goal cube, which may contain wildcards. This command uses the currently activated moves (set by the `moves` command) as its available actions. It uses the search algorithm and frontier specified. `dl` and `bl` require the `depth_limit` configuration. `ids` requires the `ids_limit` configuration. `al` requires the `astar_limit` configuration. All algorithms and frontiers require the `generation_limit` and `storage_limit` configurations. The `apply_solution` configuration controls whether a solution is applied to the current cube.
 
 ---
 
@@ -99,7 +99,7 @@ The application also provides commands for managing configuration, running scrip
 
 **Usage:** `plan tree|graph astar|bfs|dfs|dl|ids|al|greedy|uc`
 
-**Description:** Searches for a plan from the current cube to the goal cube. Uses only the defined plan actions. Uses the search algorithm and frontier specified. `dl` requires the `depth_limit` configuration. `ids` requires the `ids_limit` configuration. `al` requires the `astar_limit` configuration. All algorithms and frontiers require the `generation_limit` and `storage_limit` configurations. The `apply_solution` configuration controls whether a solution is applied to the current cube.
+**Description:** Searches for a plan from the current cube to the goal cube. Unlike the `search` command, which uses basic cube rotations, `plan` uses only the defined plan actions. Plan actions are higher-level operations that consist of preconditions (a set of cube configurations that must be met) and effects (a sequence of moves to apply). This allows for more abstract problem-solving. The search algorithm and frontier specified are used. `dl` requires the `depth_limit` configuration. `ids` requires the `ids_limit` configuration. `al` requires the `astar_limit` configuration. All algorithms and frontiers require the `generation_limit` and `storage_limit` configurations. The `apply_solution` configuration controls whether a solution is applied to the current cube.
 
 ---
 
@@ -115,7 +115,7 @@ The application also provides commands for managing configuration, running scrip
 
 **Usage:** `moves [U|U'|L|L'|F|F'|R|R'|B|B'|D|D']+|basic`
 
-**Description:** Restricts legal moves to those listed, or the basic 12 moves augmented by `enable_half` and `enable_slice` configuration options.
+**Description:** Sets the list of currently activated moves. This command rewrites the entire list of available moves. Any move, including custom defined moves, can be added to this list. The activated moves control which moves are available for the `rotate` command and which moves are considered by the `search` command. You can also use the `basic` keyword to set the list to the 12 basic moves, augmented by `enable_half` and `enable_slice` configuration options. The moves must be separated by whitespace.
 
 ---
 
