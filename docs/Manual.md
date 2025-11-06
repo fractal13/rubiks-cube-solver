@@ -367,4 +367,5 @@ cube> quit
 
 ## See Also
 
-*   [README.md](../README.md) (Note: The `README.md` file may be out of date.)
+*   [README.md](../README.md)
+
