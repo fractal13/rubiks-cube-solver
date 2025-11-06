@@ -87,10 +87,15 @@ namespace cgl {
       void disableCompilePreconditions( );
       bool compilePreconditions( ) const;
       
+    public:
+      std::string getUpdateOptionError(const std::string& option, const std::string& value) const;
+
     protected:
       std::map< std::string, double > mOptions;
 
     private:
+      std::map<std::string, std::map<std::string, double>> mOptionStringToValues;
+      std::map<std::string, std::map<double, std::string>> mOptionValueToStrings;
     };
 
   }

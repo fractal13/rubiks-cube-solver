@@ -116,8 +116,7 @@ namespace cgl {
         return EXIT_USAGE;
       }
       if( !data.config.updateOption( data.words[ 1 ], data.words[ 2 ] ) ) {
-        data.os << "Unknown configuration option: " << data.words[ 1 ] << std::endl;
-        data.os << "Known options: " << data.config.listOptions( ) << std::endl;
+        data.os << data.config.getUpdateOptionError(data.words[1], data.words[2]) << std::endl;
         return EXIT_USAGE_HELP;
       } else {
         if( ( data.words[ 1 ] == "enable_half" ) ||

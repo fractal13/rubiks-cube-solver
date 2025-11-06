@@ -7,34 +7,153 @@ namespace cgl {
 
     AppConfig::AppConfig( ) {
       /* Initialize configuration parameters */
-      enablePrompt( );
-      disableHalfTurns( );
-      disableSliceTurns( );
-      displayCubeAsT( );
-      displayMoveAsSubMoves( );
-      setDepthLimit( 5 );
-      setIDSDepth( 0 );
-      setIDSLimit( 5 );
-      setAStarLimit( 10.0 );
-      setGenerationLimit( 1e6 );
-      setStorageLimit( 1e6 );
-      disableApplySolution( );
-      setFaceletHeuristic( );
-      setDisplaySolutionHuman( );
-      disableInitialCubeAutoRemoveWildcard( );
-      enableCompilePreconditions( );
+      mOptions[ "enable_prompt" ] = 1;
+      mOptions[ "enable_half" ] = 0;
+      mOptions[ "enable_slice" ] = 0;
+      mOptions[ "cube_display" ] = 1;
+      mOptions[ "move_display" ] = 2;
+      mOptions[ "depth_limit" ] = 5;
+      mOptions[ "ids_depth" ] = 0;
+      mOptions[ "ids_limit" ] = 5;
+      mOptions[ "astar_limit" ] = 10.0;
+      mOptions[ "generation_limit" ] = 1e6;
+      mOptions[ "storage_limit" ] = 1e6;
+      mOptions[ "apply_solution" ] = 0;
+      mOptions[ "heuristic" ] = Problem::FACELET_HEURISTIC;
+      mOptions[ "solution_display" ] = 0;
+      mOptions[ "initial_cube_remove_wildcard" ] = 0;
+      mOptions[ "compile_preconditions" ] = 1;
+
+      // Populate mOptionStringToValues and mOptionValueToStrings
+      // Boolean options
+      mOptionStringToValues["enable_prompt"]["enable"] = 1.0;
+      mOptionStringToValues["enable_prompt"]["disable"] = 0.0;
+      mOptionValueToStrings["enable_prompt"][1.0] = "enabled";
+      mOptionValueToStrings["enable_prompt"][0.0] = "disabled";
+
+      mOptionStringToValues["enable_half"]["enable"] = 1.0;
+      mOptionStringToValues["enable_half"]["disable"] = 0.0;
+      mOptionValueToStrings["enable_half"][1.0] = "enabled";
+      mOptionValueToStrings["enable_half"][0.0] = "disabled";
+
+      mOptionStringToValues["enable_slice"]["enable"] = 1.0;
+      mOptionStringToValues["enable_slice"]["disable"] = 0.0;
+      mOptionValueToStrings["enable_slice"][1.0] = "enabled";
+      mOptionValueToStrings["enable_slice"][0.0] = "disabled";
+
+      mOptionStringToValues["apply_solution"]["enable"] = 1.0;
+      mOptionStringToValues["apply_solution"]["disable"] = 0.0;
+      mOptionValueToStrings["apply_solution"][1.0] = "enabled";
+      mOptionValueToStrings["apply_solution"][0.0] = "disabled";
+
+      mOptionStringToValues["initial_cube_remove_wildcard"]["enable"] = 1.0;
+      mOptionStringToValues["initial_cube_remove_wildcard"]["disable"] = 0.0;
+      mOptionValueToStrings["initial_cube_remove_wildcard"][1.0] = "enabled";
+      mOptionValueToStrings["initial_cube_remove_wildcard"][0.0] = "disabled";
+
+      mOptionStringToValues["compile_preconditions"]["enable"] = 1.0;
+      mOptionStringToValues["compile_preconditions"]["disable"] = 0.0;
+      mOptionValueToStrings["compile_preconditions"][1.0] = "enabled";
+      mOptionValueToStrings["compile_preconditions"][0.0] = "disabled";
+
+      // Enumerated options
+      mOptionStringToValues["cube_display"]["t"] = 1.0;
+      mOptionStringToValues["cube_display"]["one_word"] = 2.0;
+      mOptionStringToValues["cube_display"]["one_line"] = 3.0;
+      mOptionValueToStrings["cube_display"][1.0] = "t";
+      mOptionValueToStrings["cube_display"][2.0] = "one_word";
+      mOptionValueToStrings["cube_display"][3.0] = "one_line";
+
+      mOptionStringToValues["move_display"]["name"] = 1.0;
+      mOptionStringToValues["move_display"]["sub_moves"] = 2.0;
+      mOptionValueToStrings["move_display"][1.0] = "name";
+      mOptionValueToStrings["move_display"][2.0] = "sub_moves";
+
+      mOptionStringToValues["heuristic"]["zero"] = Problem::ZERO_HEURISTIC;
+      mOptionStringToValues["heuristic"]["facelet"] = Problem::FACELET_HEURISTIC;
+      mOptionStringToValues["heuristic"]["edge_facelet"] = Problem::EDGE_FACELET_HEURISTIC;
+      mOptionStringToValues["heuristic"]["corner_facelet"] = Problem::CORNER_FACELET_HEURISTIC;
+      mOptionStringToValues["heuristic"]["facelet_max"] = Problem::FACELET_MAX_HEURISTIC;
+      mOptionStringToValues["heuristic"]["color_count"] = Problem::COLOR_COUNT_HEURISTIC;
+      mOptionValueToStrings["heuristic"][Problem::ZERO_HEURISTIC] = "zero";
+      mOptionValueToStrings["heuristic"][Problem::FACELET_HEURISTIC] = "facelet";
+      mOptionValueToStrings["heuristic"][Problem::EDGE_FACELET_HEURISTIC] = "edge_facelet";
+      mOptionValueToStrings["heuristic"][Problem::CORNER_FACELET_HEURISTIC] = "corner_facelet";
+      mOptionValueToStrings["heuristic"][Problem::FACELET_MAX_HEURISTIC] = "facelet_max";
+      mOptionValueToStrings["heuristic"][Problem::COLOR_COUNT_HEURISTIC] = "color_count";
+
+      mOptionStringToValues["solution_display"]["human"] = 0.0;
+      mOptionStringToValues["solution_display"]["machine"] = 1.0;
+      mOptionValueToStrings["solution_display"][0.0] = "human";
+      mOptionValueToStrings["solution_display"][1.0] = "machine";
     }
 
     bool AppConfig::updateOption( const std::string& option, const std::string& value ) {
-      if( mOptions.count( option ) > 0 ) {
-        std::stringstream ss( value );
-        double number;
-        ss >> number;
-        mOptions[ option ] = number;
-        return true;
+      auto it_options = mOptions.find(option);
+      if( it_options != mOptions.end() ) {
+        auto it_string_to_values = mOptionStringToValues.find(option);
+        if ( it_string_to_values != mOptionStringToValues.end() ) {
+          // This option has string mappings
+          auto it_value_map = it_string_to_values->second.find(value);
+          if ( it_value_map != it_string_to_values->second.end() ) {
+            mOptions[ option ] = it_value_map->second;
+            return true;
+          } else {
+            return false; // Invalid string value for this option
+          }
+        } else {
+          // No string mappings, try to convert to double
+          std::stringstream ss( value );
+          double number;
+          ss >> number;
+          if (ss.fail()) {
+            return false; // Could not convert to double
+          }
+          mOptions[ option ] = number;
+          return true;
+        }
       } else {
         return false;
       }
+    }
+
+    std::string AppConfig::getUpdateOptionError(const std::string& option, const std::string& value) const {
+      std::stringstream ss_error;
+      auto it_options = mOptions.find(option);
+      if( it_options == mOptions.end() ) {
+        ss_error << "Unknown configuration option: '" << option << "'.";
+        return ss_error.str();
+      }
+
+      auto it_string_to_values = mOptionStringToValues.find(option);
+      if ( it_string_to_values != mOptionStringToValues.end() ) {
+        // This option has string mappings
+        auto it_value_map = it_string_to_values->second.find(value);
+        if ( it_value_map == it_string_to_values->second.end() ) {
+          // Invalid string value, provide a helpful error message
+          ss_error << "Invalid value '" << value << "' for option '" << option << "'. ";
+          ss_error << "Allowed values are: ";
+          bool first_value = true;
+          for (const auto& pair : it_string_to_values->second) {
+              if (!first_value) {
+                  ss_error << ", ";
+              }
+              ss_error << "'" << pair.first << "'";
+              first_value = false;
+          }
+          return ss_error.str();
+        }
+      } else {
+        // No string mappings, try to convert to double
+        std::stringstream ss( value );
+        double number;
+        ss >> number;
+        if (ss.fail()) {
+          ss_error << "Invalid value '" << value << "' for option '" << option << "'. Expected a numeric value.";
+          return ss_error.str();
+        }
+      }
+      return ""; // Should not reach here if updateOption returned false
     }
 
     std::string AppConfig::listOptions( ) const {
@@ -52,7 +171,21 @@ namespace cgl {
 
     void AppConfig::showConfiguration( std::ostream& os ) const {
       for( auto it = mOptions.begin( ); it != mOptions.end( ); it++ ) {
-        os << it->first << " " << it->second << std::endl;
+        os << it->first << " ";
+        auto it_value_to_strings = mOptionValueToStrings.find(it->first);
+        if ( it_value_to_strings != mOptionValueToStrings.end() ) {
+          // This option has string mappings, display the string representation
+          auto it_string_value = it_value_to_strings->second.find(it->second);
+          if ( it_string_value != it_value_to_strings->second.end() ) {
+            os << it_string_value->second;
+          } else {
+            os << it->second << " (unknown string value)"; // Fallback if value not in map
+          }
+        } else {
+          // No string mappings, display the raw double value
+          os << it->second;
+        }
+        os << std::endl;
       }
     }
 
