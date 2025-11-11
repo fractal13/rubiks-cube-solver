@@ -1892,7 +1892,7 @@ namespace ai
 	      str += "/f";
 	      
 	      char buf[16];
-	      std::sprintf(buf, "%d", symbol->GetArity());
+	      std::snprintf(buf, sizeof(buf), "%d", symbol->GetArity());
 	      str += "/";
 	      str += buf;
 	    }
@@ -1901,7 +1901,7 @@ namespace ai
 	      str += "/p";
 	      
 	      char buf[16];
-	      std::sprintf(buf, "%d", symbol->GetArity());
+	      std::snprintf(buf, sizeof(buf), "%d", symbol->GetArity());
 	      str += "/";
 	      str += buf;
 	    }

@@ -190,7 +190,7 @@ namespace ai
       int tx;
       char header[HDR_LENGTH];
       int length = msg.length()+1;
-      sprintf(header, HDR_FORMAT, length);
+      snprintf(header, HDR_LENGTH, HDR_FORMAT, length);
       if((tx = send(mSocket, header, HDR_LENGTH, 0)) == -1)
         {
           perror("send");
